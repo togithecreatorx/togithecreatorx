@@ -3,7 +3,7 @@
 // Not: bir satıra sığmayan metin kesilmez, taşar — uzunlukları build çıktısındaki uyarılardan kontrol et.
 
 export const profil = {
-  github: 'togiturker',              // GitHub kullanıcı adın (profil reposu: <ad>/<ad>)
+  github: 'togithecreatorx',         // GitHub kullanıcı adın (profil reposu: <ad>/<ad>)
   ad: 'Tolgahan Türker',
   takma: 'Togi',
   eposta: 'togiturker@gmail.com',
