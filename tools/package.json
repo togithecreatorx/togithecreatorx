@@ -1,0 +1,12 @@
+{
+  "name": "togi-profil-uretici",
+  "private": true,
+  "type": "module",
+  "description": "GitHub profil README görsellerini (assets/*.svg) üretir.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "subset-font": "^2.4.0"
+  }
+}
