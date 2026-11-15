@@ -9,7 +9,7 @@ import subsetFont from 'subset-font';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { RENK_SINIFLARI } from './palet.mjs';
+import { RENK_SINIFLARI, P } from './palet.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const FONT_DIR = path.join(here, '..', 'font');
@@ -18,6 +18,7 @@ const FONTLAR = {
   b: { dosya: 'JBM-Bold.woff2', weight: 700, style: 'normal' },
   i: { dosya: 'JBM-Italic.woff2', weight: 400, style: 'italic' },
 };
+const INTER = 'Inter-Variable.woff2'; // başlık / marka yazısı (OFL 1.1) — her ağırlık ayrı örneklenir
 
 export const ADV = 0.6; // JetBrains Mono: her glif 600/1000 em
 export const r2 = (n) => Math.round(n * 100) / 100;
@@ -78,6 +79,7 @@ export class Svg {
     this.title = title;
     this.desc = desc;
     this.used = { r: new Set(), b: new Set(), i: new Set() };
+    this.usedD = new Map(); // Inter: ağırlık → karakterler
     this.kf = new Map();
     this.css = [];
     this.defs = [];
@@ -95,7 +97,7 @@ export class Svg {
     for (const c of text) this.used[k].add(c);
   }
 
-  // Tek satır metin. markup: "[sf.b|togi][m|@]buro" ; opts.size px ; opts.anchor start|middle|end
+  // Tek satır metin. markup: "[co.b|togi][m|@]creator" ; opts.size px ; opts.anchor start|middle|end
   T(x, y, markup, { size = 12.5, cls = '', anchor = 'start', attrs = '' } = {}) {
     const segs = typeof markup === 'string' ? parse(markup) : markup;
     const total = segs.reduce((a, s) => a + len(s.t), 0);
@@ -114,6 +116,22 @@ export class Svg {
       col += len(s.t);
     }
     return `<text y="${r2(y)}" font-size="${size}"${attrs}>${spans}</text>`;
+  }
+
+  // Inter karakterlerini kaydet (elle yazılan <text>/<tspan> için).
+  regD(weight, text) {
+    if (!this.usedD.has(weight)) this.usedD.set(weight, new Set());
+    for (const c of String(text)) this.usedD.get(weight).add(c);
+    return text;
+  }
+
+  // Inter ile başlık/marka metni (orantılı font; hizalama text-anchor ile).
+  D(x, y, text, { size = 16, weight = 700, ls = 0, anchor = 'start', fill = '', cls = '', attrs = '' } = {}) {
+    this.regD(weight, text);
+    const f = fill ? ` fill="${fill}"` : '';
+    const l = ls ? ` letter-spacing="${ls}"` : '';
+    const a = anchor !== 'start' ? ` text-anchor="${anchor}"` : '';
+    return `<text x="${r2(x)}" y="${r2(y)}" class="dsp w${weight}${cls ? ' ' + cls : ''}" font-size="${size}"${l}${a}${f}${attrs}>${esc(text)}</text>`;
   }
 
   width(markup, size = 12.5) { return mlen(markup) * size * ADV; }
@@ -160,6 +178,17 @@ export class Svg {
           `src:url(data:font/woff2;base64,${buf.toString('base64')}) format('woff2')}`
       );
     }
+    for (const [w, set] of this.usedD) {
+      const chars = [...set].join('');
+      const buf = await subsetFont(readFileSync(path.join(FONT_DIR, INTER)), `${chars} `, {
+        targetFormat: 'woff2',
+        variationAxes: { wght: w, opsz: 32 },
+      });
+      out.push(
+        `@font-face{font-family:INT;font-weight:${w};font-style:normal;` +
+          `src:url(data:font/woff2;base64,${buf.toString('base64')}) format('woff2')}`
+      );
+    }
     return out.join('');
   }
 
@@ -171,8 +200,10 @@ export class Svg {
       .join('');
     const css =
       (await this.fontFaces()) +
-      `text{font-family:JBM,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#e6e9f2;` +
+      `text{font-family:JBM,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:${P.text};` +
       `font-variant-ligatures:none;font-kerning:none}` +
+      `.dsp{font-family:INT,Inter,'Segoe UI',system-ui,sans-serif;font-kerning:normal}` +
+      [...this.usedD.keys()].map((w) => `.w${w}{font-weight:${w}}`).join('') +
       `.b{font-weight:700}.i{font-style:italic}` +
       renk +
       this.css.join('') +

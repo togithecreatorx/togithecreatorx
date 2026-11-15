@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/hero.svg" width="100%" alt="togi@buro — tmux oturumu: neofetch kimlik kartı, UYAP dosya kartı, git log, stack, kurallar ve metrikler; yanında BüroPilot iş monitörü ve katman katman basılıp yanan 3D baskı lamba." />
+<img src="./assets/banner.svg" width="100%" alt="TOGI — Tolgahan Türker. Yörüngeli TT monogramı ve BUILD • CREATE • INSPIRE sloganı." />
 
 <br /><br />
 
@@ -13,54 +13,48 @@
 <br />
 
 ```bash
-togi@buro ❯ cat hakkimda.md
+togi@creator ❯ cat hakkimda.md
 ```
 
-> Hukuk bürosunun tekrar eden işlerini — UYAP işlemleri, masraf ödemeleri, mutabakat, banka portföy raporları — **çalışan masaüstü otomasyonlarına** çeviriyorum.
-> Electron ve Node.js ile yazıyor; Excel, VBA ve PowerShell'i sonuna kadar kullanıyorum. Canlıya giden her şey önce doğrulanır.
-> Bir de **Hungry Bugs Studio** var: 3D yazıcıda bastığım lambalar.
+> Tekrar eden işleri **çalışan yazılıma** çeviriyorum: masaüstü otomasyonları, kurumsal güvenlik araçları ve web uygulamaları.
+> Electron, Node.js ve C# ile yazıyorum; boş kalan zamanda ESP32 kurcalıyor, 3D yazıcıda lamba basıyorum.
+> Kısacası: **build → create → inspire.**
+
+<br />
+
+<img src="./assets/hero.svg" width="100%" alt="togi@creator — tmux oturumu: TOGI monogramlı kimlik kartı, projeler (git log), stack, metrikler ve Spendify yol haritası; yanında derleme monitörü ve katman katman basılıp yanan 3D baskı lamba." />
 
 <br />
 
 ```bash
-togi@buro ❯ buropilot hat --ciz
+togi@creator ❯ ls ~/projeler --one-cikan
 ```
 
-<img src="./assets/hat.svg" width="100%" alt="Otomasyon hattı: UYAP, Leganova, banka portalları ve Excel/XML girdileri çekirdekte (oturum havuzu, iş kuyruğu, kalkan, mutabakat, çift kontrol, append-only log) işlenir; UYAP işlemleri, Leganova kayıtları, Excel raporları ve ödeme listeleri çıkar. Kalkan mükerrer paketi durdurur." />
+<img src="./assets/projeler.svg" width="100%" alt="Öne çıkan projeler: Spendify (12 modüllü masaüstü otomasyon platformu), Sentrix DLP (180+ uç nokta için şirket içi veri kaybı önleme), Signum (merkezi e-imza ağ geçidi), CCP2 (Call Center Platform, ikinci nesil)." />
 
 <br />
 
 ```bash
-togi@buro ❯ ls ~/projeler --kart
+togi@creator ❯ ls ~/atolye
 ```
 
-<img src="./assets/projeler.svg" width="100%" alt="Projeler: takip-acilis, buropilot, mutabakat-motoru, yts-asistan, vintage-cli, odeme-listesi, yon-kurulum, hungry-bugs-studio — her biri durumu ve küçük bir canlı görseliyle." />
+<img src="./assets/araclar.svg" width="100%" alt="Atölye: haciz-pilot, garanti-masraf, masraf-qnb, esp32-lab, Hungry Bugs Studio, yon-kurulum ve bu profilin üreticisi." />
 
 <br />
 
 ```bash
-togi@buro ❯ cat kurallar.yaml
+togi@creator ❯ cat not.txt
 ```
 
-```yaml
-# Canlı sisteme dokunan her otomasyonda geçerli
-kurallar:
-  cift_kontrol:   "Bir partiyi yükleyen kişi onu onaylayamaz."
-  yazma_kapali:   "Canlıya yazma bayrağı varsayılan olarak KAPALI."
-  kisisel_veri:   "Gerçek TCKN, ad, adres, tutar ve dosya no; repoya, commit'e, rapora girmez."
-  canli_para:     "Gerçek para harcayan komut yalnızca açık talimatla çalışır."
-  yasam_dongusu:  "İşin sahibi backend: running → stopping → close → stopped."
-  loglar:         "Append-only; geçmiş yeniden yazılmaz."
-  eslestirme:     "Hibrit eşleştirmenin her katmanında tarih zorunlu."
-  kimlik_bilgisi: "Kullanıcı girer; global .env dosyasına konmaz."
-  teslim:         "Diff görülmeden hiçbir ajan raporu kabul edilmez."
-dogrulama: [node --check, self-test, UAT, Excel readback, log marker, yasak kalıp taraması]
+```text
+Projelerin çoğu kurumsal ve özel (private) repolarda duruyor.
+Merak ettiğin bir şey varsa e-posta at; demo ya da kısa bir tur ayarlarız.
 ```
 
 <br />
 
-<img src="./assets/istanbul.svg" width="100%" alt="Gece İstanbul silüeti: Galata Kulesi, camiler, Boğaz köprüsü, Kız Kulesi ve Boğaz'dan geçen vapur; terminalde 'exit' satırı." />
+<img src="./assets/istanbul.svg" width="100%" alt="Mor gece İstanbul silüeti: Galata Kulesi, camiler, Boğaz köprüsü, Kız Kulesi ve Boğaz'dan geçen vapur; terminalde 'exit' satırı." />
 
 <div align="center">
-<sub>© 2026 Tolgahan Türker · İstanbul · <i>İznik Gecesi</i> teması · görseller <code>tools/</code> içindeki üreticiyle çizildi</sub>
+<sub>© 2026 <b>TOGI</b> · Tolgahan Türker · İstanbul · görseller <code>tools/</code> içindeki üreticiyle çizildi</sub>
 </div>

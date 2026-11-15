@@ -1,171 +1,162 @@
 // Profilin bütün metni burada. Değiştir → `node build.mjs` → assets/*.svg yeniden üretilir.
 // İşaretleme: [sınıf|metin]  sınıflar: t d m f co cr tq sf li sg am dk  + b (kalın) i (italik)
-// Not: bir satıra sığmayan metin kesilmez, taşar — uzunlukları build çıktısındaki uyarılardan kontrol et.
+// Not: bir satıra sığmayan metin kesilmez, taşar — uzun metin girersen ilgili SVG'yi tarayıcıda kontrol et.
 
 export const profil = {
   github: 'togithecreatorx',         // GitHub kullanıcı adın (profil reposu: <ad>/<ad>)
+  marka: 'TOGI',
   ad: 'Tolgahan Türker',
-  takma: 'Togi',
+  slogan: ['BUILD', 'CREATE', 'INSPIRE'],
   eposta: 'togiturker@gmail.com',
-  kullanici: 'togi',                 // terminal istemi: togi@buro
-  host: 'buro',
+  kullanici: 'togi',                 // terminal istemi: togi@creator
+  host: 'creator',
   konum: 'İstanbul, TR',
   koordinat: '41.01°K 28.97°D',
-  dal: 'takip',                      // durum çubuğundaki git dalı
+  dal: 'main',
   atolye: 'Hungry Bugs Studio',
+  alanlar: 'otomasyon · güvenlik · 3D tasarım',
 };
 
 // ── HERO: sol panel sekmeleri (tmux pencereleri) ─────────────────────────────
 export const sekmeler = [
   {
     ad: 'kimlik',
-    komut: 'neofetch --kimlik',
+    komut: 'neofetch --togi',
     tur: 'neofetch',
     satirlar: [
-      '[sf.b|togi][m|@][t.b|buro]',
+      '[co.b|togi][m|@][t.b|creator]',
       '[f|─────────────────]',
-      '[tq|Ad         ][t|Tolgahan Türker ][d|(Togi)]',
-      '[tq|Rol        ][t|legal-tech otomasyon geliştiricisi]',
-      '[tq|Konum      ][t|İstanbul, TR]',
-      '[tq|Çekirdek   ][t|Node.js · Electron]',
-      '[tq|Kabuk      ][t|PowerShell · VBA]',
-      '[tq|Hedefler   ][t|UYAP · Leganova · banka portalları]',
-      '[tq|Şu an      ][t|BüroPilot · Takip Açılış Modülü]',
-      '[tq|Atölye     ][sf|Hungry Bugs Studio][d| · 3D lamba]',
-    ],
-  },
-  {
-    ad: 'dosya',
-    komut: 'uyap sorgula --taraf "Tolgahan Türker"',
-    tur: 'dosya',
-    baslik: '[co.b|UYAP][m| · ][t|DOSYA BİLGİSİ]',
-    durum: 'DERDEST',
-    alanlar: [
-      ['Dosya No', '[sf.b|2026/TOGI-001]'],
-      ['Birim', '[t|İstanbul Otomasyon Dairesi]'],
-      ['Alacaklı', '[sg|Verimlilik]'],
-      ['Borçlu', '[cr|Manuel İş][d|  ·  tekrar eden tıklamalar]'],
-      ['Takip Yolu', '[t|ilamsız][m|  →  ][tq|tam otomatik]'],
-      ['Son İşlem', '[t|masraf ödendi ][sg|✓][t|  mutabakat ][sg|✓][t|  rapor ][sg|✓]'],
-    ],
-    notlar: [
-      '[m.i|# ödeme emri tebliğ edildi — borçlu otomasyona geçmeli.]',
-      '[m.i|# itiraz süresi 7 gün. sonrası: cron devreye girer.]',
+      '[co|Ad         ][t|Tolgahan Türker ][d|(TOGI)]',
+      '[co|Rol        ][t|yazılım geliştirici · maker]',
+      '[co|Konum      ][t|İstanbul, TR]',
+      '[co|Çekirdek   ][t|Node.js · Electron · C#]',
+      '[co|Web        ][t|Next.js · TypeScript]',
+      '[co|Donanım    ][t|ESP32 · 3D baskı]',
+      '[co|Şu an      ][t|Spendify · CCP2]',
+      '[co|Slogan     ][li.b|BUILD • CREATE • INSPIRE]',
     ],
   },
   {
     ad: 'projeler',
     komut: 'git log --oneline -n 7',
     tur: 'gitlog',
+    // [hash, ad, açıklama, teknoloji]
     satirlar: [
-      ['f11ed01', 'takip-acilis', 'UYAP icra takibi · XML → 5 uç', 'gel'],
-      ['ba5e1c0', 'buropilot', '4 uygulama → tek platform', 'gel'],
-      ['5e771ed', 'mutabakat-motoru', '8 durum · tarih şart · 24/24', 'test'],
-      ['da7a5e7', 'yts-asistan', 'rapor · ödeme listesi · SMS', 'kul'],
-      ['7a111ed', 'vintage-cli', 'tahsilat vintage analizi', 'kul'],
-      ['1157ed0', 'odeme-listesi', 'hesap hareketi → icra listesi', 'gel'],
-      ['b065fed', 'hungry-bugs-studio', '3D baskı lamba · e-ticaret', 'gel'],
+      ['5be1d1f', 'spendify', '12 modül · tek masaüstü', 'Electron'],
+      ['cc2a0b2', 'ccp2', 'call center platform · v2', 'platform'],
+      ['5e47a1c', 'sentrix-dlp', '180+ uç nokta · on-prem DLP', 'C# · FastAPI'],
+      ['519a0e1', 'signum', 'merkezi e-imza ağ geçidi', 'Node · C#'],
+      ['ac1d907', 'haciz-pilot', 'toplu talep · önizle → gönder', 'Electron'],
+      ['b065fed', 'hungry-bugs-studio', '3D baskı lamba · e-ticaret', 'Next.js'],
+      ['e5932ab', 'esp32-lab', 'gömülü sistem denemeleri', 'ESP32'],
     ],
-    not: '[m.i|# + makbuz-indirici · kalkan · icra-veri-hattı · yon-kurulum]',
+    not: '[m.i|# + garanti-masraf · masraf-qnb · yon-kurulum · bu profil]',
   },
   {
     ad: 'stack',
     komut: 'cat stack.lock',
     tur: 'stack',
     gruplar: [
-      ['dil', ['JavaScript', 'Node.js', 'PowerShell', 'VBA']],
-      ['masaüstü', ['Electron', 'Node.js backend', 'append-only log']],
-      ['otomasyon', ['UYAP oturumu', 'HAR analizi', 'Leganova API', 'imza.co']],
-      ['veri', ['Excel / xlsx', 'PostgreSQL', 'Redis kuyruğu', 'XML']],
-      ['doğrulama', ['node --check', 'self-test', 'UAT', 'Excel readback']],
-      ['araç', ['Git · PR', 'VS Code · Remote SSH', 'Claude Code', 'winget']],
+      ['dil', ['JavaScript', 'TypeScript', 'C#', 'Python', 'PowerShell']],
+      ['masaüstü', ['Electron', 'Node worker', '.NET']],
+      ['web', ['Next.js', 'Tailwind', 'FastAPI', 'Prisma']],
+      ['veri', ['PostgreSQL', 'Redis', 'Excel / xlsx']],
+      ['donanım', ['ESP32', '3D baskı', 'PLA']],
+      ['araç', ['Git', 'Docker', 'Claude Code', 'VS Code']],
     ],
-    not: '[m.i|# sürüm kilidi: çalışan sisteme rota dışı refactor yok.]',
-  },
-  {
-    ad: 'kurallar',
-    komut: 'cat kurallar.yaml',
-    tur: 'yaml',
-    kok: 'kurallar',
-    satirlar: [
-      ['cift_kontrol', 'yükleyen, kendi işini onaylayamaz'],
-      ['yazma_kapali', 'canlıya yazma bayrağı varsayılan KAPALI'],
-      ['kisisel_veri', 'gerçek TCKN, ad, tutar repoya girmez'],
-      ['canli_para', 'para harcayan komut = açık talimat'],
-      ['yasam_dongusu', 'running → stopping → close → stopped'],
-      ['loglar', 'append-only; geçmiş yeniden yazılmaz'],
-      ['eslestirme', 'tarih, her eşleştirme katmanında şart'],
-      ['teslim', 'diff görülmeden rapor kabul edilmez'],
-    ],
+    not: '[m.i|# çalışan sisteme rota dışı refactor yok.]',
   },
   {
     ad: 'metrik',
-    komut: 'buropilot metrik --ozet',
+    komut: 'togi metrik --ozet',
     tur: 'metrik',
     kartlar: [
-      ['4→1', 'uygulama tek', 'platformda'],
-      ['5', 'UYAP ucu', 'tek akışta'],
-      ['8', 'durumlu', 'mutabakat'],
-      ['24/24', 'mutabakat', 'testi yeşil'],
-      ['3', 'katmanlı', 'doğrulama'],
-      ['6/8', 'açık tek', 'sprintte kapandı'],
+      ['180+', 'uç nokta', 'Sentrix DLP'],
+      ['12', 'modül tek', 'uygulamada'],
+      ['0 TL', 'aylık altyapı', 'Hungry Bugs'],
+      ['24/24', 'eşleştirme', 'testi yeşil'],
+      ['3', 'rollü yetki', 'Signum RBAC'],
+      ['v2', 'call center', 'platformu'],
     ],
     not: '[m.i|# hepsi gerçek sayı; uydurma metrik yok.]',
   },
+  {
+    ad: 'yol',
+    komut: 'cat yol-haritasi.yaml',
+    tur: 'yaml',
+    kok: 'spendify',
+    satirlar: [
+      ['bugun', '12 modül · tek masaüstü uygulama'],
+      ['yolda', 'mutabakat-motoru → modül'],
+      ['yolda', 'vintage-cli → analiz modülü'],
+      ['yolda', 'yts-asistan → rapor modülü'],
+      ['hedef', 'tek kurulum, tek arayüz'],
+    ],
+  },
 ];
 
-// Durum etiketleri (proje kartları ve git log)
+// Durum etiketleri (proje kartları)
 export const durumlar = {
   kul: { etiket: 'kullanımda', renk: 'sg' },
   gel: { etiket: 'geliştirmede', renk: 'sf' },
-  test: { etiket: 'test ✓', renk: 'tq' },
   haz: { etiket: 'hazır', renk: 'li' },
-  tas: { etiket: 'tasarım', renk: 'li' },
 };
 
-// ── HERO sağ üst: iş monitörü ────────────────────────────────────────────────
+// ── HERO sağ üst: derleme monitörü ───────────────────────────────────────────
 // [ad, kuyrukta-başla, çalış-başla, bitiş]  (30 sn döngü içinde saniye)
 export const isler = [
-  ['uyap.masraf-ode', 0, 0.5, 9],
-  ['leganova.esitle', 0, 2.5, 8.5],
-  ['mutabakat.calistir', 0, 7, 19],
-  ['kesinlesme.sorgu', 0, 12.5, 22],
-  ['takip.ac --kuru', 0, 18.5, 27],
+  ['spendify.dist', 0, 0.5, 9],
+  ['sentrix.agent', 0, 2.5, 8.5],
+  ['signum.gateway', 0, 7, 19],
+  ['ccp2.test', 0, 12.5, 22],
+  ['hbs.deploy', 0, 18.5, 27],
 ];
 
-// ── HAT (otomasyon hattı) ────────────────────────────────────────────────────
-export const hat = {
-  kaynaklar: [
-    ['UYAP', 'e-icra · evrak · harç'],
-    ['Leganova', 'dava ve masraf kayıtları'],
-    ['Banka portalları', 'portföy raporları'],
-    ['Excel / XML', 'talep ve liste girdileri'],
-  ],
-  cekirdek: [
-    ['oturum havuzu', 'tek oturum, çok iş'],
-    ['iş kuyruğu', 'yaşam döngüsü'],
-    ['kalkan', 'mükerrer engeli'],
-    ['mutabakat', '8 durumlu eşleşme'],
-    ['çift kontrol', 'yükleyen onaylamaz'],
-    ['append-only log', 'geçmiş silinmez'],
-  ],
-  ciktilar: [
-    ['UYAP işlemleri', 'masraf · takip açılış'],
-    ['Leganova kayıtları', 'otomatik giriş'],
-    ['Excel raporları', 'sabah · aylık · vintage'],
-    ['Ödeme listeleri', 'icra ödemesi · SMS'],
-  ],
-};
-
-// ── PROJE KARTLARI ───────────────────────────────────────────────────────────
-// [ad, açıklama, etiketler, durum, mini-görsel]
+// ── ÖNE ÇIKAN PROJELER (projeler.svg) ────────────────────────────────────────
+// { ad, baslik, aciklama:[satır, satır], etiketler, alt, gorsel }
 export const projeler = [
-  ['takip-acilis', 'XML talebinden UYAP\'ta icra takibi açar', ['UYAP', 'Node.js', 'Redis'], 'gel', 'takip'],
-  ['buropilot', '4 aracı tek Electron platformunda toplar', ['Electron', 'Node.js', 'Leganova'], 'gel', 'birlesme'],
-  ['mutabakat-motoru', 'UYAP ↔ Leganova masraf mutabakatı', ['Node.js', 'test 24/24'], 'test', 'durumlar'],
-  ['yts-asistan', 'raporlardan ödeme listesi, özet ve SMS', ['masaüstü', 'Excel'], 'kul', 'cubuk'],
-  ['vintage-cli', 'tahsilat vintage analizi, 5 segment', ['Node.js', 'CLI'], 'kul', 'vintage'],
-  ['odeme-listesi', 'hesap hareketlerinden icra ödeme listesi', ['Excel', 'mükerrer kontrol'], 'gel', 'liste'],
-  ['yon-kurulum', 'Win 11 sonrası tek tıkla ofis kurulumu', ['PowerShell', 'winget', 'JSON'], 'haz', 'kurulum'],
-  ['hungry-bugs-studio', '3D baskı lambalar için e-ticaret sitesi', ['web', 'e-ticaret'], 'gel', 'lamba'],
+  {
+    ad: 'spendify',
+    baslik: 'Spendify',
+    aciklama: ['Operasyon süreçlerini tek masaüstü', 'uygulamada toplayan otomasyon platformu.'],
+    etiketler: ['Electron', 'Node worker', '12 modül'],
+    alt: '[m|yolda:][d| mutabakat · vintage analizi · rapor]',
+    gorsel: 'moduller',
+  },
+  {
+    ad: 'sentrix-dlp',
+    baslik: 'Sentrix DLP',
+    aciklama: ['180+ uç nokta için şirket içi veri kaybı', 'önleme ve uç nokta yönetimi.'],
+    etiketler: ['C# ajan', 'FastAPI', 'PostgreSQL'],
+    alt: '[m|USB denetimi · egress engeli · sıfır bulut]',
+    gorsel: 'radar',
+  },
+  {
+    ad: 'signum',
+    baslik: 'Signum',
+    aciklama: ['Ofis ağında tek akıllı kart üzerinden', 'merkezi e-imza ağ geçidi.'],
+    etiketler: ['CAdES-BES', 'RBAC', 'denetim izi'],
+    alt: '[m|PKCS#11 · oturum eşitleme · on-prem]',
+    gorsel: 'imza',
+  },
+  {
+    ad: 'ccp2',
+    baslik: 'CCP2',
+    aciklama: ['Call Center Platform — çağrı merkezi', 'platformunun ikinci nesli.'],
+    etiketler: ['v2', 'çağrı merkezi', 'platform'],
+    alt: '[m|CCP\'nin baştan yazılan yeni sürümü]',
+    gorsel: 'cagri',
+  },
+];
+
+// ── ATÖLYE (araclar.svg): küçük kartlar, 4 sütun ─────────────────────────────
+// [ad, açıklama satırları, etiketler, ikon, genişlik(sütun)]
+export const araclar = [
+  ['haciz-pilot', ['Listeden toplu talep;', 'önce önizle, sonra gönder.'], ['Electron', 'CSV/XLSX'], 'pilot', 1],
+  ['garanti-masraf', ['Makbuz → PDF → kayıt;', 'tutar tutmazsa durur.'], ['Node.js', 'PDF'], 'makbuz', 1],
+  ['masraf-qnb', ['Excel listesinden evrak,', 'makbuz ve tutar kontrolü.'], ['Electron', 'Playwright'], 'liste', 1],
+  ['esp32-lab', ['ESP32 ile gömülü sistem', 've IoT denemeleri.'], ['ESP32', 'IoT'], 'cip', 1],
+  ['hungry-bugs-studio', ['3D yazıcıda basılan lambalar ve onları satan e-ticaret sitesi.', 'Next.js · Prisma · iyzico — aylık altyapı gideri 0 TL.'], ['Next.js', 'TypeScript', '3D baskı'], 'lamba', 2],
+  ['yon-kurulum', ['Windows 11 sonrası', 'tek tıkla ofis kurulumu.'], ['PowerShell', 'winget'], 'kurulum', 1],
+  ['profil-uretici', ['Bu profil: tek config,', 'animasyonlu SVG çıktısı.'], ['Node.js', 'SVG'], 'kod', 1],
 ];

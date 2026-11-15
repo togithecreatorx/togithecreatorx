@@ -24,7 +24,7 @@ async function rozet(ikon, renk, metin, baslik) {
   const W = Math.ceil(44 + tw + 16);
   const s = new Svg(W, H, { title: baslik, desc: baslik });
   s.def(
-    `<linearGradient id="rz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P[renk]}" stop-opacity=".75"/><stop offset="1" stop-color="${P.co}" stop-opacity=".25"/></linearGradient>`
+    `<linearGradient id="rz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P[renk]}" stop-opacity=".75"/><stop offset="1" stop-color="${P.brand}" stop-opacity=".3"/></linearGradient>`
   );
   s.add(
     `<rect x=".75" y=".75" width="${W - 1.5}" height="${H - 1.5}" rx="${(H - 1.5) / 2}" fill="${P.bg1}" stroke="url(#rz)" stroke-width="1.5"/>`,
@@ -35,6 +35,6 @@ async function rozet(ikon, renk, metin, baslik) {
   return s.render();
 }
 
-export const rozetEposta = () => rozet('eposta', 'sf', `[t|${profil.eposta}]`, `E-posta: ${profil.eposta}`);
+export const rozetEposta = () => rozet('eposta', 'co', `[t|${profil.eposta}]`, `E-posta: ${profil.eposta}`);
 export const rozetKonum = () => rozet('konum', 'tq', `[t|İstanbul][m| · ][d|TR]`, 'Konum: İstanbul, Türkiye');
 export const rozetAtolye = () => rozet('atolye', 'am', `[t|${profil.atolye}][m| · ][d|3D lamba]`, `${profil.atolye} — 3D baskı lambalar`);

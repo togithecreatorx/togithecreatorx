@@ -1,17 +1,18 @@
-// hero.svg — tmux düzeninde terminal:
-//   sol panel  : 6 pencere döngüsü (neofetch, UYAP dosya kartı, git log, stack, kurallar, metrik)
-//   sağ üst    : BüroPilot iş monitörü (canlı ilerleme çubukları)
+// hero.svg — tmux düzeninde terminal (TOGI teması):
+//   sol panel  : 5 pencere döngüsü (neofetch + monogram, git log, stack, metrik, yol haritası)
+//   sağ üst    : derleme monitörü (canlı ilerleme çubukları)
 //   sağ alt    : Hungry Bugs Studio — katman katman basılan, sonra yanan lamba + ışığa gelen buglar
 //   alt        : tmux durum çubuğu (aktif pencere sekmeyle birlikte kayar)
 
 import { Svg, len, ADV, r2, pencere } from '../lib/svg.mjs';
 import { P, ID } from '../lib/palet.mjs';
-import { profil, sekmeler, durumlar, isler } from '../profil.config.mjs';
+import { VIEW, MOR, beyazT, morT, yorungeUst, yorungeAlt, yildiz } from '../lib/logo.mjs';
+import { profil, sekmeler, isler } from '../profil.config.mjs';
 
 const W = 900, H = 500;
 const TOP = 36, BOT = 472;
 const SX = 568, SY = 262;          // panel bölücüleri
-const T = 30, TAB = 5;             // döngü / sekme süresi (sn)
+const T = 30, TAB = 6;             // döngü / sekme süresi (sn)
 const OFF_TAB = -2.25;             // yüklenince ilk sekme yazılmış hâlde görünsün
 const OFF_JOB = -10;               // iş monitörü: biri bitmiş, biri çalışıyor
 const OFF_LAMP = -18;              // lamba: yanık, buglar uçuyor
@@ -19,7 +20,7 @@ const FS = 12.5, AFS = FS * ADV;
 
 
 // ── yardımcılar ─────────────────────────────────────────────────────────────
-function istem(s, x, y, { u, yol = '', uFill, yFill = P.coD, size = 11.5 }) {
+function istem(s, x, y, { u, yol = '', uFill, uText = 'dk', yFill = '#2a2150', size = 11.5 }) {
   const adv = size * ADV, h = 18, top = y - 12.6;
   const wA = len(u) * adv + 14;
   const xA1 = x + wA;
@@ -37,7 +38,7 @@ function istem(s, x, y, { u, yol = '', uFill, yFill = P.coD, size = 11.5 }) {
     `<path d="M${r2(x + 4)} ${r2(top)}H${r2(xA1)}V${r2(top + h)}H${r2(x + 4)}` +
     `Q${r2(x)} ${r2(top + h)} ${r2(x)} ${r2(top + h - 4)}V${r2(top + 4)}Q${r2(x)} ${r2(top)} ${r2(x + 4)} ${r2(top)}Z" fill="${uFill}"/>`;
   out += `<path d="M${r2(xA1)} ${r2(top)}l8 ${h / 2}-8 ${h / 2}z" fill="${uFill}"/>`;
-  out += s.T(x + 7, y, `[dk.b|${u}]`, { size });
+  out += s.T(x + 7, y, `[${uText}.b|${u}]`, { size });
   return { svg: out, end: end + 8 };
 }
 
@@ -48,89 +49,38 @@ const blink = (s) => {
 
 // ── sol panel sekme içerikleri: { rows:[{svg, dt, fx?}], endY } ─────────────
 function neofetch(s, tab) {
-  const grid = [
-    '........T........',
-    '.......SSS.......',
-    '..SSSSSSSSSSSSS..',
-    '..D.....S.....D..',
-    '.D.D....S....D.D.',
-    'D.R.D...S...D.Q.D',
-    'CCCCC...S...CCCCC',
-    '.CCC....S....CCC.',
-    '........S........',
-    '........S........',
-    '........S........',
-    '.......SSS.......',
-    '.....BBBBBBB.....',
-    '...BBBBBBBBBBB...',
-  ];
-  const renk = { T: P.tq, S: P.sf, D: P.dim, C: P.co, B: P.coD, R: P.cr, Q: P.tq };
-  const x0 = 26, y0 = 100, c = 8;
   const rows = [];
-  rows.push({ svg: `<circle cx="${x0 + 8.5 * c}" cy="${y0 + 7 * c}" r="96" fill="url(#embGlow)"/>`, dt: 0 });
-  grid.forEach((line, r) => {
-    let g = '';
-    [...line].forEach((ch, k) => {
-      if (ch !== '.') g += `<rect x="${x0 + k * c}" y="${y0 + r * c}" width="7" height="7" rx="1.4" fill="${renk[ch]}"/>`;
-    });
-    rows.push({ svg: g, dt: 0.02 + r * 0.03 });
-  });
+  const [vx, vy, vw, vh] = VIEW;
+  const k = 146 / vw, lx = 22, ly = 128;
+  const tf = `translate(${r2(lx - vx * k)} ${r2(ly - vy * k)}) scale(${r2(k * 1000) / 1000})`;
+  rows.push({ svg: `<circle cx="${r2(lx + (vw * k) / 2)}" cy="${r2(ly + (vh * k) / 2)}" r="98" fill="url(#embGlow)"/>`, dt: 0 });
+  rows.push({ svg: `<g transform="${tf}"><path d="${yorungeUst}" fill="${MOR}"/><path d="${yorungeAlt}" fill="${MOR}"/></g>`, dt: 0.05 });
+  rows.push({ svg: `<g transform="${tf}"><path d="${beyazT}" fill="${P.text}"/></g>`, dt: 0.14 });
+  rows.push({ svg: `<g transform="${tf}"><path d="${morT}" fill="${MOR}"/></g>`, dt: 0.22 });
+  rows.push({ svg: `<g transform="${tf}"><path d="${yildiz}" fill="${P.li}"/></g>`, dt: 0.34, fx: 'up' });
   const ix = 186, iy = 110, lh = 21;
   tab.satirlar.forEach((m, j) => rows.push({ svg: s.T(ix, iy + j * lh, m, { size: FS }), dt: 0.1 + j * 0.06 }));
   const by = iy + (tab.satirlar.length - 1) * lh + 15;
-  const blok = ['co', 'cr', 'tq', 'sf', 'li', 'sg', 'am', 'text']
+  const blok = ['mark', 'brand', 'co', 'li', 'text', 'tq', 'cr', 'sf']
     .map((k, i) => `<rect x="${ix + i * 26}" y="${by}" width="22" height="11" rx="2.5" fill="${P[k]}"/>`)
     .join('');
   rows.push({ svg: blok, dt: 0.1 + tab.satirlar.length * 0.06 });
   return { rows, endY: by + 52 };
 }
 
-function dosya(s, tab) {
-  const x = 24, y = 92, w = 520, hh = 32, h = 190;
-  const rows = [];
-  rows.push({
-    svg:
-      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${P.bg2}" stroke="${P.line2}"/>` +
-      `<path d="M${x + 10} ${y}H${x + w - 10}Q${x + w} ${y} ${x + w} ${y + 10}V${y + hh}H${x}V${y + 10}Q${x} ${y} ${x + 10} ${y}Z" fill="${P.co}" fill-opacity=".10"/>` +
-      `<line x1="${x}" y1="${y + hh}" x2="${x + w}" y2="${y + hh}" stroke="${P.line2}"/>` +
-      s.T(x + 18, y + 21, tab.baslik, { size: FS }) +
-      `<rect x="${x + w - 94}" y="${y + 8}" width="80" height="17" rx="8.5" fill="${P.tq}" fill-opacity=".13" stroke="${P.tq}" stroke-opacity=".55"/>` +
-      s.T(x + w - 54, y + 20.2, `[tq.b|● ${tab.durum}]`, { size: 10.5, anchor: 'middle' }),
-    dt: 0,
-  });
-  tab.alanlar.forEach(([etiket, deger], j) => {
-    const yy = y + hh + 26 + j * 22.5;
-    rows.push({ svg: s.T(x + 18, yy, `[d|${etiket}]`, { size: FS }) + s.T(x + 146, yy, deger, { size: FS }), dt: 0.08 + j * 0.07 });
-  });
-  // mühür: TEBLİĞ EDİLDİ
-  const tS = 0.08 + tab.alanlar.length * 0.07 + 0.25;
-  rows.push({
-    svg:
-      `<g transform="translate(476 178) rotate(-11)"><g data-muhur="1">` +
-      `<rect x="-66" y="-16" width="132" height="32" rx="5" stroke="${P.cr}" stroke-width="2"/>` +
-      `<rect x="-62" y="-12" width="124" height="24" rx="3" stroke="${P.cr}" stroke-opacity=".55"/>` +
-      s.T(0, 4.6, '[cr.b|TEBLİĞ EDİLDİ]', { size: 12.5, anchor: 'middle' }) +
-      `</g></g>`,
-    dt: tS,
-    fx: 'muhur',
-  });
-  tab.notlar.forEach((m, j) => rows.push({ svg: s.T(x, y + h + 32 + j * 22, m, { size: 12 }), dt: tS + 0.2 + j * 0.08 }));
-  return { rows, endY: y + h + 32 + tab.notlar.length * 22 + 22 };
-}
-
 function gitlog(s, tab) {
   const rows = [];
   const y0 = 104, lh = 25, fs = 12;
-  tab.satirlar.forEach(([hash, ad, acik, d], j) => {
+  tab.satirlar.forEach(([hash, ad, acik, tek], j) => {
     const y = y0 + j * lh;
-    const du = durumlar[d];
+    const renk = ID[j % ID.length];
     let g = '';
     if (j === 0) g += `<rect x="16" y="${y - 16}" width="540" height="23" rx="6" fill="${P.bg3}"/>`;
-    g += s.T(24, y, `[sf|${hash}]`, { size: fs });
+    g += s.T(24, y, `[co|${hash}]`, { size: fs });
     g += s.T(84, y, `[t${j === 0 ? '.b' : ''}|${ad}]`, { size: fs });
     g += s.T(230, y, `[d|${acik}]`, { size: fs });
-    g += `<circle cx="458" cy="${y - 4}" r="3.3" fill="${P[du.renk]}"/>`;
-    g += s.T(467, y, `[${du.renk}|${du.etiket}]`, { size: 11 });
+    g += `<circle cx="458" cy="${y - 4}" r="3.3" fill="${P[renk]}"/>`;
+    g += s.T(467, y, `[${renk}|${tek}]`, { size: 11 });
     rows.push({ svg: g, dt: j * 0.07 });
   });
   const ny = y0 + tab.satirlar.length * lh + 8;
@@ -193,7 +143,7 @@ function metrik(s, tab) {
   return { rows, endY: ny + 40 };
 }
 
-const BUILD = { neofetch, dosya, gitlog, stack, yaml, metrik };
+const BUILD = { neofetch, gitlog, stack, yaml, metrik };
 
 // ── lamba geometrisi ─────────────────────────────────────────────────────────
 function catmull(pts, t) {
@@ -242,8 +192,8 @@ export async function hero() {
   const s = new Svg(W, H, {
     title: `${profil.kullanici}@${profil.host} — ${profil.ad}`,
     desc:
-      'tmux düzeninde animasyonlu terminal: kimlik (neofetch), UYAP dosya kartı, git log, stack, kurallar ve metrikler; ' +
-      'yanında BüroPilot iş monitörü ve katman katman basılıp yanan 3D baskı lamba.',
+      'tmux düzeninde animasyonlu terminal: TOGI monogramlı kimlik kartı, projeler (git log), stack, metrikler ve yol haritası; ' +
+      'yanında derleme monitörü ve katman katman basılıp yanan 3D baskı lamba.',
   });
 
   // defs
@@ -252,11 +202,11 @@ export async function hero() {
     `<clipPath id="pL"><rect x="0" y="${TOP}" width="${SX}" height="${BOT - TOP}"/></clipPath>`,
     `<clipPath id="pRT"><rect x="${SX}" y="${TOP}" width="${W - SX}" height="${SY - TOP}"/></clipPath>`,
     `<clipPath id="pRB"><rect x="${SX}" y="${SY}" width="${W - SX}" height="${BOT - SY}"/></clipPath>`,
-    `<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1428"/><stop offset="1" stop-color="#0a101f"/></linearGradient>`,
-    `<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P.co}" stop-opacity=".6"/><stop offset=".5" stop-color="${P.tq}" stop-opacity=".16"/><stop offset="1" stop-color="${P.am}" stop-opacity=".38"/></linearGradient>`,
-    `<radialGradient id="glowTL" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(150 70) scale(560 320)"><stop offset="0" stop-color="${P.co}" stop-opacity=".09"/><stop offset="1" stop-color="${P.co}" stop-opacity="0"/></radialGradient>`,
-    `<radialGradient id="embGlow"><stop offset="0" stop-color="${P.sf}" stop-opacity=".16"/><stop offset="1" stop-color="${P.sf}" stop-opacity="0"/></radialGradient>`,
-    `<linearGradient id="scan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.tq}" stop-opacity="0"/><stop offset=".7" stop-color="${P.tq}" stop-opacity=".07"/><stop offset="1" stop-color="${P.tq}" stop-opacity="0"/></linearGradient>`,
+    `<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c0a15"/><stop offset="1" stop-color="#07070b"/></linearGradient>`,
+    `<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P.brand}" stop-opacity=".7"/><stop offset=".5" stop-color="${P.co}" stop-opacity=".14"/><stop offset="1" stop-color="${P.am}" stop-opacity=".38"/></linearGradient>`,
+    `<radialGradient id="glowTL" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(150 70) scale(560 320)"><stop offset="0" stop-color="${P.brand}" stop-opacity=".13"/><stop offset="1" stop-color="${P.brand}" stop-opacity="0"/></radialGradient>`,
+    `<radialGradient id="embGlow"><stop offset="0" stop-color="${P.brand}" stop-opacity=".3"/><stop offset="1" stop-color="${P.brand}" stop-opacity="0"/></radialGradient>`,
+    `<linearGradient id="scan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.co}" stop-opacity="0"/><stop offset=".7" stop-color="${P.co}" stop-opacity=".08"/><stop offset="1" stop-color="${P.co}" stop-opacity="0"/></linearGradient>`,
     `<radialGradient id="bugGlow"><stop offset="0" stop-color="${P.am}" stop-opacity=".45"/><stop offset="1" stop-color="${P.am}" stop-opacity="0"/></radialGradient>`
   );
 
@@ -266,13 +216,13 @@ export async function hero() {
 
   // başlık çubuğu
   parts.push(`<rect width="${W}" height="${TOP}" fill="${P.bg0}"/><line x1="0" y1="${TOP - 0.5}" x2="${W}" y2="${TOP - 0.5}" stroke="${P.line}"/>`);
-  [P.cr, P.sf, P.tq].forEach((c, i) => parts.push(`<circle cx="${20 + i * 18}" cy="18" r="5.5" fill="${c}"/>`));
+  [P.cr, P.sf, P.sg].forEach((c, i) => parts.push(`<circle cx="${20 + i * 18}" cy="18" r="5.5" fill="${c}"/>`));
   parts.push(
-    s.T(W / 2, 22.5, `[sf.b|${profil.kullanici}][m|@][t|${profil.host}][m|: ][d|~/profil][m|  —  tmux]`, { size: 11.5, anchor: 'middle' })
+    s.T(W / 2, 22.5, `[co.b|${profil.kullanici}][m|@][t|${profil.host}][m|: ][d|~/profil][m|  —  tmux]`, { size: 11.5, anchor: 'middle' })
   );
 
   // panel bölücüler (aktif panel kenarı turkuaz)
-  parts.push(`<line x1="${SX + 0.5}" y1="${TOP}" x2="${SX + 0.5}" y2="${BOT}" stroke="${P.tq}" stroke-opacity=".38"/>`);
+  parts.push(`<line x1="${SX + 0.5}" y1="${TOP}" x2="${SX + 0.5}" y2="${BOT}" stroke="${P.brand}" stroke-opacity=".55"/>`);
   parts.push(`<line x1="${SX}" y1="${SY + 0.5}" x2="${W}" y2="${SY + 0.5}" stroke="${P.line2}"/>`);
 
   // ── SOL PANEL ──
@@ -289,7 +239,7 @@ export async function hero() {
   sekmeler.forEach((tab, k) => {
     const S = k * TAB;
     const yP = 70;
-    const ist = istem(s, 24, yP, { u: profil.kullanici, yol: '~/profil', uFill: P.sf });
+    const ist = istem(s, 24, yP, { u: profil.kullanici, yol: '~/profil', uFill: P.brand, uText: 't' });
     const cmdX = ist.end;
     const n = len(tab.komut);
     const td = Math.min(1.15, Math.max(0.5, n * 0.03));
@@ -312,7 +262,7 @@ export async function hero() {
     g += ist.svg + `<g clip-path="url(#ty${k})">${s.T(cmdX, yP, `[t|${tab.komut}]`, { size: FS })}</g>`;
     // imleç: aynı adımlarla sağa kayar
     g += `<g${s.anim(T, [[0, 'transform:translateX(0px)'], [t0, 'transform:translateX(0px)', `steps(${n},end)`], [t1, `transform:translateX(${r2(Lw)}px)`]], { delay: OFF_TAB, base: `transform:translateX(${r2(Lw)}px)` })}>`;
-    g += `<rect x="${r2(cmdX)}" y="${yP - 12}" width="${r2(AFS)}" height="15" rx="1" fill="${P.sf}" opacity="0"${s.anim(T, [[0, 'opacity:0'], [S, 'opacity:0'], [S + 0.01, 'opacity:.9'], [t1 + 0.45, 'opacity:.9'], [t1 + 0.46, 'opacity:0']], { delay: OFF_TAB })}/>`;
+    g += `<rect x="${r2(cmdX)}" y="${yP - 12}" width="${r2(AFS)}" height="15" rx="1" fill="${P.co}" opacity="0"${s.anim(T, [[0, 'opacity:0'], [S, 'opacity:0'], [S + 0.01, 'opacity:.9'], [t1 + 0.45, 'opacity:.9'], [t1 + 0.46, 'opacity:0']], { delay: OFF_TAB })}/>`;
     g += `</g>`;
     // çıktı satırları
     let tLast = tOut;
@@ -333,9 +283,9 @@ export async function hero() {
     }
     // yeni istem + yanıp sönen imleç
     const tEnd = tLast + 0.3;
-    const ist2 = istem(s, 24, endY, { u: profil.kullanici, yol: '~/profil', uFill: P.sf });
+    const ist2 = istem(s, 24, endY, { u: profil.kullanici, yol: '~/profil', uFill: P.brand, uText: 't' });
     g += `<g${s.anim(T, [[0, 'opacity:0'], [tEnd, 'opacity:0'], [tEnd + 0.12, 'opacity:1']], { delay: OFF_TAB })}>`;
-    g += ist2.svg + `<rect x="${r2(ist2.end)}" y="${endY - 12}" width="${r2(AFS)}" height="15" rx="1" fill="${P.sf}" style="${blink(s)}"/>`;
+    g += ist2.svg + `<rect x="${r2(ist2.end)}" y="${endY - 12}" width="${r2(AFS)}" height="15" rx="1" fill="${P.co}" style="${blink(s)}"/>`;
     g += `</g></g>`;
     parts.push(g);
   });
@@ -345,10 +295,10 @@ export async function hero() {
   parts.push(`<g clip-path="url(#pRT)">`);
   {
     const X = SX + 16;
-    const ist = istem(s, X, 60, { u: 'buropilot', uFill: P.tq });
-    parts.push(ist.svg + s.T(ist.end, 60, '[t|jobs --izle]', { size: 11.5 }));
+    const ist = istem(s, X, 60, { u: 'togi', uFill: P.co });
+    parts.push(ist.svg + s.T(ist.end, 60, '[t|build --all --izle]', { size: 11.5 }));
     const cB = 712, cD = 814;
-    parts.push(s.T(X, 87, '[m|İŞ]', { size: 9.5 }) + s.T(cB, 87, '[m|İLERLEME]', { size: 9.5 }) + s.T(cD, 87, '[m|DURUM]', { size: 9.5 }));
+    parts.push(s.T(X, 87, '[m|HEDEF]', { size: 9.5 }) + s.T(cB, 87, '[m|İLERLEME]', { size: 9.5 }) + s.T(cD, 87, '[m|DURUM]', { size: 9.5 }));
     parts.push(`<line x1="${X}" y1="94.5" x2="${W - 16}" y2="94.5" stroke="${P.line}"/>`);
     s.loop('spin', 'to{transform:rotate(360deg)}');
     isler.forEach(([ad, , r0, r1], j) => {
@@ -356,7 +306,7 @@ export async function hero() {
       const k = ID[j % ID.length];
       const d = r1 - r0;
       parts.push(s.T(X, y, `[t|${ad}]`, { size: 11 }));
-      parts.push(`<rect x="${cB}" y="${y - 7.5}" width="88" height="5" rx="2.5" fill="#1a2747"/>`);
+      parts.push(`<rect x="${cB}" y="${y - 7.5}" width="88" height="5" rx="2.5" fill="#211b38"/>`);
       const fillSt = [
         [0, 'transform:scaleX(0)'], [r0, 'transform:scaleX(0)'],
         [r0 + d * 0.35, 'transform:scaleX(.42)'], [r0 + d * 0.55, 'transform:scaleX(.5)'],
@@ -381,9 +331,9 @@ export async function hero() {
     s.loop('pulse', '0%,100%{opacity:1}50%{opacity:.35}');
     const fy1 = 232, fy2 = 250, a = 10.5 * ADV;
     parts.push(`<g style="animation:pulse 2.2s ease-in-out infinite">${s.T(X, fy1, '[sg|●]', { size: 10.5 })}</g>`);
-    parts.push(s.T(X + 2 * a, fy1, '[d|kalkan aktif]', { size: 10.5 }));
-    parts.push(s.T(X + 18 * a, fy1, '[sg|●]', { size: 10.5 }) + s.T(X + 20 * a, fy1, '[d|çift kontrol açık]', { size: 10.5 }));
-    parts.push(s.T(X, fy2, '[cr|●]', { size: 10.5 }) + s.T(X + 2 * a, fy2, '[d|canlı yazma kapalı]', { size: 10.5 }));
+    parts.push(s.T(X + 2 * a, fy1, '[d|testler yeşil]', { size: 10.5 }));
+    parts.push(s.T(X + 18 * a, fy1, '[co|●]', { size: 10.5 }) + s.T(X + 20 * a, fy1, '[d|sırlar repoda değil]', { size: 10.5 }));
+    parts.push(s.T(X, fy2, '[sf|●]', { size: 10.5 }) + s.T(X + 2 * a, fy2, '[d|önce kuru çalıştır]', { size: 10.5 }));
     parts.push(s.T(X + 23 * a, fy2, '[tq|●]', { size: 10.5 }) + s.T(X + 25 * a, fy2, '[d|log append-only]', { size: 10.5 }));
   }
   parts.push(`</g>`);
@@ -401,7 +351,7 @@ export async function hero() {
 
     // gradyanlar
     s.def(
-      `<linearGradient id="lmC" gradientUnits="userSpaceOnUse" x1="${cx - 46}" y1="0" x2="${cx + 46}" y2="0"><stop offset="0" stop-color="#22345f"/><stop offset=".3" stop-color="#c5d2f3"/><stop offset=".56" stop-color="#8ea2d6"/><stop offset="1" stop-color="#1f2f57"/></linearGradient>`,
+      `<linearGradient id="lmC" gradientUnits="userSpaceOnUse" x1="${cx - 46}" y1="0" x2="${cx + 46}" y2="0"><stop offset="0" stop-color="#2a1f55"/><stop offset=".3" stop-color="#ddd1ff"/><stop offset=".56" stop-color="#a68ef0"/><stop offset="1" stop-color="#241a4b"/></linearGradient>`,
       `<linearGradient id="lmW" gradientUnits="userSpaceOnUse" x1="${cx - 46}" y1="0" x2="${cx + 46}" y2="0"><stop offset="0" stop-color="#8a3d12"/><stop offset=".3" stop-color="#fff1cc"/><stop offset=".56" stop-color="#ffbd6b"/><stop offset="1" stop-color="#7a330f"/></linearGradient>`,
       `<radialGradient id="lmIn" gradientUnits="userSpaceOnUse" cx="${cx - 6}" cy="${yAlt - boy * 0.42}" r="62"><stop offset="0" stop-color="#fff6dc"/><stop offset=".45" stop-color="#ffc06e"/><stop offset="1" stop-color="#ff8a3d" stop-opacity=".15"/></radialGradient>`,
       `<radialGradient id="pool"><stop offset="0" stop-color="${P.am}" stop-opacity=".34"/><stop offset="1" stop-color="${P.am}" stop-opacity="0"/></radialGradient>`,
@@ -430,12 +380,12 @@ export async function hero() {
       ['[m|sıradaki baskı…]', [[28.6, 30]]],
     ];
     durumSt.forEach(([m, w], i) => parts.push(`<g opacity="${i === 2 ? 1 : 0}"${s.anim(T, pencere(w, 0.2), { delay: OFF_LAMP })}>${s.T(dX, SY + 56, m, { size: 11 })}</g>`));
-    parts.push(`<rect x="${X}" y="${SY + 66}" width="130" height="4" rx="2" fill="#1a2747"/>`);
+    parts.push(`<rect x="${X}" y="${SY + 66}" width="130" height="4" rx="2" fill="#211b38"/>`);
     parts.push(`<rect x="${X}" y="${SY + 66}" width="130" height="4" rx="2" fill="${P.cr}"${s.anim(T, [[0, 'transform:scaleX(0)'], [P0, 'transform:scaleX(0)'], [P1, 'transform:scaleX(1)'], [28.6, 'transform:scaleX(1)'], [29.6, 'transform:scaleX(0)']], { delay: OFF_LAMP, origin: 'left center', base: 'transform:scaleX(1)' })}/>`);
     parts.push(s.T(X, SY + 90, '[m|PLA · 0.2 mm · vazo modu]', { size: 10.5 }));
     parts.push(s.T(X, SY + 134, '[m.i|// buglar ışığa gelir,]', { size: 10.5 }));
     parts.push(s.T(X, SY + 150, '[m.i|// ben de onları yakalarım.]', { size: 10.5 }));
-    parts.push(s.T(X, SY + 180, `[sf.b|${profil.atolye}]`, { size: 12 }));
+    parts.push(s.T(X, SY + 180, `[am.b|${profil.atolye}]`, { size: 12 }));
     parts.push(s.T(X, SY + 196, '[d|3D baskı lambalar · atölye]', { size: 10.5 }));
 
     // lamba gövdesi
@@ -446,9 +396,9 @@ export async function hero() {
 
     // taban + kablo
     parts.push(
-      `<path d="M${cx + 24} 452C${cx + 48} 452 ${cx + 40} 466 ${W} 466" stroke="#2a3a66" stroke-width="1.5"/>` +
-        `<rect x="${cx - 24}" y="446" width="48" height="11" rx="3" fill="#18223f" stroke="#2c3d6b"/>` +
-        `<line x1="${cx - 20}" y1="448.5" x2="${cx + 20}" y2="448.5" stroke="#3b4f86" stroke-opacity=".7"/>`
+      `<path d="M${cx + 24} 452C${cx + 48} 452 ${cx + 40} 466 ${W} 466" stroke="#33285c" stroke-width="1.5"/>` +
+        `<rect x="${cx - 24}" y="446" width="48" height="11" rx="3" fill="#1b1533" stroke="#33285c"/>` +
+        `<line x1="${cx - 20}" y1="448.5" x2="${cx + 20}" y2="448.5" stroke="#4d3f85" stroke-opacity=".7"/>`
     );
 
     // baskı katmanları (soğuk renk, nozul geçtikçe çizilir)
@@ -497,9 +447,9 @@ export async function hero() {
     parts.push(
       `<g opacity="0"${s.anim(T, [[0, 'opacity:0'], [0.6, 'opacity:0'], [0.9, 'opacity:1'], [13.1, 'opacity:1'], [13.6, 'opacity:0']], { delay: OFF_LAMP })}>` +
         `<g><animateMotion path="${yol}" dur="${T}s" begin="${OFF_LAMP}s" repeatCount="indefinite" calcMode="linear" keyTimes="0;${r2(P0 / T * 1000) / 1000};${r2(P1 / T * 1000) / 1000};1" keyPoints="0;0;1;1"/>` +
-        `<line x1="0" y1="-14" x2="0" y2="-46" stroke="#33446f" stroke-width="2"/>` +
-        `<rect x="-7" y="-15" width="14" height="9" rx="2" fill="#2a3a66" stroke="#3d5288"/>` +
-        `<path d="M-3.2 -6H3.2L0 -1.2Z" fill="${P.sf}"/>` +
+        `<line x1="0" y1="-14" x2="0" y2="-46" stroke="#3b3166" stroke-width="2"/>` +
+        `<rect x="-7" y="-15" width="14" height="9" rx="2" fill="#2f2650" stroke="#4d3f85"/>` +
+        `<path d="M-3.2 -6H3.2L0 -1.2Z" fill="${P.co}"/>` +
         `<circle cx="0" cy="-0.6" r="1.6" fill="${P.am}"/>` +
         `</g></g>`
     );
@@ -510,8 +460,8 @@ export async function hero() {
       `<g transform="scale(1.4)">` +
       `<circle r="7.5" fill="url(#bugGlow)"/>` +
       `<g style="animation:flap .12s linear infinite;transform-box:fill-box;transform-origin:center">` +
-      `<ellipse cx="-1.2" cy="-2.7" rx="3.8" ry="1.9" fill="#e6e9f2" fill-opacity=".6" transform="rotate(-24 -1.2 -2.7)"/>` +
-      `<ellipse cx="-1.2" cy="2.7" rx="3.8" ry="1.9" fill="#e6e9f2" fill-opacity=".6" transform="rotate(24 -1.2 2.7)"/></g>` +
+      `<ellipse cx="-1.2" cy="-2.7" rx="3.8" ry="1.9" fill="${P.text}" fill-opacity=".6" transform="rotate(-24 -1.2 -2.7)"/>` +
+      `<ellipse cx="-1.2" cy="2.7" rx="3.8" ry="1.9" fill="${P.text}" fill-opacity=".6" transform="rotate(24 -1.2 2.7)"/></g>` +
       `<ellipse rx="3.3" ry="2.3" fill="${c}"/>` +
       `<path d="M-2.6 0H2.1" stroke="${P.dk}" stroke-width=".7"/>` +
       `<circle cx="3.4" r="1.45" fill="${P.dk}"/>` +
@@ -520,8 +470,8 @@ export async function hero() {
     const el = (ex, ey, rx, ry, ters) =>
       `M${ex - rx} ${ey}a${rx} ${ry} 0 1 ${ters ? 1 : 0} ${2 * rx} 0a${rx} ${ry} 0 1 ${ters ? 1 : 0} ${-2 * rx} 0`;
     const bugs = [
-      [el(cx - 6, 352, 66, 28, 0), 7, P.cr, -1.2],
-      [el(cx + 2, 380, 52, 44, 1), 9.5, P.sf, -4.4],
+      [el(cx - 6, 352, 66, 28, 0), 7, P.co, -1.2],
+      [el(cx + 2, 380, 52, 44, 1), 9.5, P.cr, -4.4],
       [el(cx - 4, 334, 74, 22, 0), 12, P.tq, -7.9],
     ];
     parts.push(`<g${s.anim(T, isik(ON + 1.1, OFFL - 0.6), { delay: OFF_LAMP })}>`);
@@ -536,7 +486,7 @@ export async function hero() {
   parts.push(`<rect y="${BOT}" width="${W}" height="${H - BOT}" fill="${P.bg0}"/><line x1="0" y1="${BOT + 0.5}" x2="${W}" y2="${BOT + 0.5}" stroke="${P.line}"/>`);
   {
     const yb = 490.2, a = 11 * ADV;
-    parts.push(`<rect x="10" y="477" width="${r2(len(profil.host) * a + 16)}" height="18" rx="4" fill="${P.sf}"/>` + s.T(18, yb, `[dk.b|${profil.host}]`, { size: 11 }));
+    parts.push(`<rect x="10" y="477" width="${r2(len(profil.host) * a + 16)}" height="18" rx="4" fill="${P.brand}"/>` + s.T(18, yb, `[t.b|${profil.host}]`, { size: 11 }));
     let x = 10 + len(profil.host) * a + 16 + 14;
     sekmeler.forEach((tab, k) => {
       const lab = `${k + 1}:${tab.ad}`;
@@ -544,7 +494,7 @@ export async function hero() {
       parts.push(`<g opacity="${k === 0 ? 0 : 1}"${s.anim(T, pencere([[k * TAB, (k + 1) * TAB]], 0.2, { gor: 0, gizli: 1 }), { delay: OFF_TAB })}>${s.T(x, yb, `[d|${lab}]`, { size: 11 })}</g>`);
       parts.push(
         `<g opacity="${k === 0 ? 1 : 0}"${s.anim(T, pencere([[k * TAB, (k + 1) * TAB]], 0.2), { delay: OFF_TAB })}>` +
-          `<rect x="${r2(x - 5)}" y="478" width="${r2(w + 9)}" height="16" rx="4" fill="${P.tq}"/>` +
+          `<rect x="${r2(x - 5)}" y="478" width="${r2(w + 9)}" height="16" rx="4" fill="${P.co}"/>` +
           s.T(x, yb, `[dk.b|${lab}*]`, { size: 11 }) +
           `</g>`
       );

@@ -46,15 +46,15 @@ export async function istanbulSvg() {
     desc: "Piksel İstanbul silüeti: Galata, camiler, Boğaz köprüsü, Kız Kulesi; Boğaz'dan geçen vapur ve 'exit' yazan terminal satırı.",
   });
   const rnd = rng(1453);
-  const NEAR = '#060b19', MID = '#0b1430', FAR = '#152250';
+  const NEAR = '#0e051a', MID = '#1a0a31', FAR = '#2f1352';
   const ISIK = ['#ffcf7a', '#ffd98f', '#ffbf63', '#ffe7b0'];
 
   s.def(
     `<clipPath id="cardI"><rect width="${W}" height="${H}" rx="14"/></clipPath>`,
-    `<linearGradient id="gok" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060b1c"/><stop offset=".55" stop-color="#0d1838"/><stop offset=".86" stop-color="#1a2b5c"/><stop offset="1" stop-color="#25407a"/></linearGradient>`,
-    `<linearGradient id="deniz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1d42"/><stop offset=".4" stop-color="#0a1430"/><stop offset="1" stop-color="#050915"/></linearGradient>`,
-    `<radialGradient id="ay"><stop offset="0" stop-color="#fff6dc" stop-opacity=".35"/><stop offset=".35" stop-color="#cfe0ff" stop-opacity=".10"/><stop offset="1" stop-color="#cfe0ff" stop-opacity="0"/></radialGradient>`,
-    `<radialGradient id="duman"><stop offset="0" stop-color="#9aa6c4" stop-opacity=".45"/><stop offset="1" stop-color="#9aa6c4" stop-opacity="0"/></radialGradient>`,
+    `<linearGradient id="gok" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10051d"/><stop offset=".55" stop-color="#1e0b3a"/><stop offset=".86" stop-color="#35175f"/><stop offset="1" stop-color="#42227d"/></linearGradient>`,
+    `<linearGradient id="deniz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#230d44"/><stop offset=".4" stop-color="#190832"/><stop offset="1" stop-color="#0c0416"/></linearGradient>`,
+    `<radialGradient id="ay"><stop offset="0" stop-color="#fff6dc" stop-opacity=".35"/><stop offset=".35" stop-color="#decfff" stop-opacity=".10"/><stop offset="1" stop-color="#decfff" stop-opacity="0"/></radialGradient>`,
+    `<radialGradient id="duman"><stop offset="0" stop-color="#aa98c6" stop-opacity=".45"/><stop offset="1" stop-color="#aa98c6" stop-opacity="0"/></radialGradient>`,
     `<linearGradient id="pus" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.tq}" stop-opacity="0"/><stop offset="1" stop-color="${P.tq}" stop-opacity=".12"/></linearGradient>`,
     `<linearGradient id="edgeI" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P.co}" stop-opacity=".5"/><stop offset=".5" stop-color="${P.tq}" stop-opacity=".12"/><stop offset="1" stop-color="${P.am}" stop-opacity=".35"/></linearGradient>`
   );
@@ -75,7 +75,7 @@ export async function istanbulSvg() {
     const z = rnd() < 0.15 ? 2 : 1.4;
     const tw = rnd() < 0.5 ? 'tw1' : 'tw2';
     const d = (2.5 + rnd() * 4).toFixed(2), dl = (-rnd() * 6).toFixed(2);
-    o.push(R(x, y, z, z, '#dfe7ff', ` opacity="${(0.45 + rnd() * 0.5).toFixed(2)}" style="animation:${tw} ${d}s ease-in-out ${dl}s infinite"`));
+    o.push(R(x, y, z, z, '#ecdfff', ` opacity="${(0.45 + rnd() * 0.5).toFixed(2)}" style="animation:${tw} ${d}s ease-in-out ${dl}s infinite"`));
   }
   // ay
   o.push(`<circle cx="772" cy="58" r="70" fill="url(#ay)"/><circle cx="772" cy="58" r="15" fill="#f1ecdc"/>`);
@@ -87,7 +87,7 @@ export async function istanbulSvg() {
   [[92, 70, 0, 470], [104, 55, -14, 300], [80, 64, -31, 640]].forEach(([y, dur, dl, sx], i) => {
     o.push(
       `<g style="transform:translateX(${sx}px);animation:suzul ${dur}s linear ${dl}s infinite"><g transform="translate(0 ${y})">` +
-        `<path d="M-6 0Q-3 -3 0 0Q3 -3 6 0" stroke="#c9d4f0" stroke-opacity=".7" stroke-width="1.3" stroke-linecap="round" style="animation:kanat ${0.7 + i * 0.15}s ease-in-out infinite;transform-box:fill-box;transform-origin:center"/>` +
+        `<path d="M-6 0Q-3 -3 0 0Q3 -3 6 0" stroke="#d8c7f2" stroke-opacity=".7" stroke-width="1.3" stroke-linecap="round" style="animation:kanat ${0.7 + i * 0.15}s ease-in-out infinite;transform-box:fill-box;transform-origin:center"/>` +
         `</g></g>`
     );
   });
@@ -135,7 +135,7 @@ export async function istanbulSvg() {
     }
     // kablo ışıkları
     kablo.forEach(([x, y], i) => {
-      if (i % 6 === 0) g += R(x - 0.8, y - 0.8, 1.6, 1.6, '#d8e4ff', ` opacity=".75"`);
+      if (i % 6 === 0) g += R(x - 0.8, y - 0.8, 1.6, 1.6, '#e6d8ff', ` opacity=".75"`);
     });
     // akan farlar
     s.loop('saga', `from{transform:translateX(0)}to{transform:translateX(${W - 560}px)}`);
@@ -211,11 +211,11 @@ export async function istanbulSvg() {
 
   // deniz
   o.push(R(0, UF, W, H - UF, 'url(#deniz)'));
-  o.push(`<line x1="0" y1="${UF + 0.5}" x2="${W}" y2="${UF + 0.5}" stroke="#2c4a86" stroke-opacity=".5"/>`);
+  o.push(`<line x1="0" y1="${UF + 0.5}" x2="${W}" y2="${UF + 0.5}" stroke="#49288a" stroke-opacity=".5"/>`);
   // ay yansıması
   for (let i = 0; i < 12; i++) {
     const y = UF + 6 + i * 6.5, w = 26 - i * 1.2 + (i % 2) * 6;
-    o.push(R(772 - w / 2 + (i % 3) * 2 - 2, y, w, 1.6, '#e8ecff', ` opacity="${r2(0.55 - i * 0.035)}" style="animation:parilti ${(1.6 + (i % 4) * 0.5).toFixed(1)}s ease-in-out ${(-i * 0.3).toFixed(1)}s infinite"`));
+    o.push(R(772 - w / 2 + (i % 3) * 2 - 2, y, w, 1.6, '#f3e8ff', ` opacity="${r2(0.55 - i * 0.035)}" style="animation:parilti ${(1.6 + (i % 4) * 0.5).toFixed(1)}s ease-in-out ${(-i * 0.3).toFixed(1)}s infinite"`));
   }
   // kıyı ışıklarının yansıması
   for (let i = 0; i < 40; i++) {
@@ -228,7 +228,7 @@ export async function istanbulSvg() {
   s.loop('dalga', '0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}');
   for (let i = 0; i < 34; i++) {
     const x = rnd() * W, y = UF + 26 + rnd() * (H - UF - 30), w = 8 + rnd() * 18;
-    o.push(R(x, y, w, 1, '#7aa2ff', ` opacity="${(0.08 + rnd() * 0.12).toFixed(2)}" style="animation:dalga ${(3 + rnd() * 3).toFixed(1)}s ease-in-out ${(-rnd() * 5).toFixed(1)}s infinite"`));
+    o.push(R(x, y, w, 1, '#ab7aff', ` opacity="${(0.08 + rnd() * 0.12).toFixed(2)}" style="animation:dalga ${(3 + rnd() * 3).toFixed(1)}s ease-in-out ${(-rnd() * 5).toFixed(1)}s infinite"`));
   }
 
   // Kız Kulesi
@@ -241,7 +241,7 @@ export async function istanbulSvg() {
     g += R(x - 2, y - 22, 2, 3, '#ffd98f') + R(x + 1, y - 16, 2, 3, '#ffcf7a', ' opacity=".7"');
     g += R(x - 0.8, y - 43, 1.6, 1.6, P.cr, ' style="animation:parilti 2.4s ease-in-out infinite"');
     // yansıma
-    g += R(x - 12, y + 3, 24, 2, '#0e1a3a') + R(x - 2, y + 7, 2, 7, '#ffd98f', ' opacity=".25"');
+    g += R(x - 12, y + 3, 24, 2, '#1f0c3c') + R(x - 2, y + 7, 2, 7, '#ffd98f', ' opacity=".25"');
     o.push(g);
   }
 
@@ -261,7 +261,7 @@ export async function istanbulSvg() {
       '.HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH..',
       '..HHHHHHHHHHHHHHHHHHHHHHHHHHHHH...',
     ];
-    const renk = { F: '#04070d', W: '#e6e9f2', U: '#22305a', D: '#1a2650', y: '#ffd27d', H: '#070b18', S: '#c9d2e6' };
+    const renk = { F: '#07040d', W: '#ebe6f2', U: '#39205c', D: '#321852', y: '#ffd27d', H: '#0e0619', S: '#d3c8e7' };
     const c = 2.6;
     let v = '';
     harita.forEach((row, r) => [...row].forEach((ch, k) => {
@@ -273,9 +273,9 @@ export async function istanbulSvg() {
     let duman = '';
     for (let i = 0; i < 3; i++) duman += `<circle cx="${19 * c}" cy="-2" r="3.2" fill="url(#duman)" style="animation:duman 3.6s ease-out ${(-i * 1.2).toFixed(1)}s infinite;transform-box:fill-box;transform-origin:center"/>`;
     // dümen suyu
-    v += R(29 * c, 3 * c - 7, 1.2, 7, '#3a4a78') + R(29 * c - 0.8, 3 * c - 9, 2.8, 2.8, '#ffe7b0', ' style="animation:parilti 1.8s ease-in-out infinite"');
+    v += R(29 * c, 3 * c - 7, 1.2, 7, '#53387a') + R(29 * c - 0.8, 3 * c - 9, 2.8, 2.8, '#ffe7b0', ' style="animation:parilti 1.8s ease-in-out infinite"');
     let iz = '';
-    for (let i = 0; i < 6; i++) iz += R(-8 - i * 9, vh - 3 + (i % 2), 6 - i * 0.6, 1.4, '#cfd8ee', ` opacity="${r2(0.5 - i * 0.07)}"`);
+    for (let i = 0; i < 6; i++) iz += R(-8 - i * 9, vh - 3 + (i % 2), 6 - i * 0.6, 1.4, '#daceef', ` opacity="${r2(0.5 - i * 0.07)}"`);
     s.loop('vapur', `from{transform:translateX(-120px)}to{transform:translateX(${W + 60}px)}`);
     const yV = 214;
     o.push(
@@ -287,7 +287,7 @@ export async function istanbulSvg() {
   }
 
   // terminal satırı
-  o.push(s.T(24, 32, `[sf.b|${profil.kullanici}][m|@][t|${profil.host}] [co.b|❯] [t|exit]`, { size: 12.5 }));
+  o.push(s.T(24, 32, `[co.b|${profil.kullanici}][m|@][t|${profil.host}] [li.b|❯] [t|exit]`, { size: 12.5 }));
   const veda = `[d|logout · İstanbul'dan iyi geceler.]`;
   o.push(s.T(24, 54, veda, { size: 12.5 }));
   o.push(`<rect x="${r2(24 + (mlen(veda) + 1) * 12.5 * 0.6)}" y="43" width="7.5" height="14" rx="1" fill="${P.sf}" style="animation:blink 1.1s linear infinite"/>`);

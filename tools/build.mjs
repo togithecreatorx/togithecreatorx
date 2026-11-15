@@ -2,9 +2,10 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { banner } from './cizim/banner.mjs';
 import { hero } from './cizim/hero.mjs';
-import { hatSvg } from './cizim/hat.mjs';
 import { projelerSvg } from './cizim/projeler.mjs';
+import { araclarSvg } from './cizim/araclar.mjs';
 import { istanbulSvg } from './cizim/istanbul.mjs';
 import { rozetEposta, rozetKonum, rozetAtolye } from './cizim/rozet.mjs';
 
@@ -12,7 +13,12 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(here, '..', 'assets');
 await mkdir(OUT, { recursive: true });
 
-const isler = { 'hero.svg': hero, 'hat.svg': hatSvg, 'projeler.svg': projelerSvg, 'istanbul.svg': istanbulSvg,
+const isler = {
+  'banner.svg': banner,
+  'hero.svg': hero,
+  'projeler.svg': projelerSvg,
+  'araclar.svg': araclarSvg,
+  'istanbul.svg': istanbulSvg,
   'rozet-eposta.svg': rozetEposta,
   'rozet-konum.svg': rozetKonum,
   'rozet-atolye.svg': rozetAtolye,
