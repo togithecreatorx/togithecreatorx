@@ -17,7 +17,7 @@ togi@creator ❯ cat hakkimda.md
 ```
 
 > Tekrar eden işleri **çalışan yazılıma** çeviriyorum: masaüstü otomasyonları, kurumsal güvenlik araçları ve web uygulamaları.
-> Electron, Node.js ve C# ile yazıyorum; boş kalan zamanda ESP32 kurcalıyor, 3D yazıcıda lamba basıyorum.
+> Electron, Node.js ve C# ile yazıyorum; boş kalan zamanda Arduino kurcalıyor, 3D yazıcıda lamba basıyorum.
 > Kısacası: **build → create → inspire.**
 
 <br />
@@ -30,7 +30,7 @@ togi@creator ❯ cat hakkimda.md
 togi@creator ❯ ls ~/projeler --one-cikan
 ```
 
-<img src="./assets/projeler.svg" width="100%" alt="Öne çıkan projeler: Spendify (12 modüllü masaüstü otomasyon platformu), Sentrix DLP (180+ uç nokta için şirket içi veri kaybı önleme), Signum (merkezi e-imza ağ geçidi), CCP2 (Call Center Platform, ikinci nesil)." />
+<img src="./assets/projeler.svg" width="100%" alt="Öne çıkan projeler: Spendify (12 modüllü masaüstü otomasyon platformu), Sentrix DLP (180+ uç nokta için şirket içi veri kaybı önleme), Signum (merkezi e-imza ağ geçidi), CCP2 (NestJS, Asterisk ve WebRTC ile geliştirilen çağrı merkezi platformu)." />
 
 <br />
 
@@ -38,7 +38,7 @@ togi@creator ❯ ls ~/projeler --one-cikan
 togi@creator ❯ ls ~/atolye
 ```
 
-<img src="./assets/araclar.svg" width="100%" alt="Atölye: haciz-pilot, garanti-masraf, masraf-qnb, esp32-lab, Hungry Bugs Studio, yon-kurulum ve bu profilin üreticisi." />
+<img src="./assets/araclar.svg" width="100%" alt="Atölye: haciz-pilot, garanti-masraf, masraf-qnb, zimmet-istasyonu (Arduino + RFID), Hungry Bugs Studio, yon-kurulum ve bu profilin üreticisi." />
 
 <br />
 
