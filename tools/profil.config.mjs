@@ -7,7 +7,7 @@ export const profil = {
   marka: 'TOGI',
   ad: 'Tolgahan Türker',
   slogan: ['BUILD', 'CREATE', 'INSPIRE'],
-  eposta: 'togiturker@gmail.com',
+  eposta: 'tolgahanturker@hotmail.com',
   kullanici: 'togi',                 // terminal istemi: togi@creator
   host: 'creator',
   konum: 'İstanbul, TR',

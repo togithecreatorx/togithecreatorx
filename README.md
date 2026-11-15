@@ -4,7 +4,7 @@
 
 <br /><br />
 
-<a href="mailto:togiturker@gmail.com"><img src="./assets/rozet-eposta.svg" height="34" alt="E-posta: togiturker@gmail.com" /></a>&nbsp;
+<a href="mailto:tolgahanturker@hotmail.com"><img src="./assets/rozet-eposta.svg" height="34" alt="E-posta: tolgahanturker@hotmail.com" /></a>&nbsp;
 <img src="./assets/rozet-konum.svg" height="34" alt="Konum: İstanbul, TR" />&nbsp;
 <img src="./assets/rozet-atolye.svg" height="34" alt="Hungry Bugs Studio — 3D baskı lambalar" />
 
